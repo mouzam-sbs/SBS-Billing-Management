@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SBSBillingSoftware", "SBSBillingSoftware\SBSBillingSoftware.csproj", "{B9F5A93D-2601-4441-B91E-B78D3D197441}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CABC6752-AE33-4DEE-908A-A490EA855AC6} = {CABC6752-AE33-4DEE-908A-A490EA855AC6}
+		{105C79C0-589C-4EA9-A98C-5B60B3E71501} = {105C79C0-589C-4EA9-A98C-5B60B3E71501}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{CABC6752-AE33-4DEE-908A-A490EA855AC6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0795BB21-8D7F-4B6E-829F-EF0A0E464DCF} = {0795BB21-8D7F-4B6E-829F-EF0A0E464DCF}
+		{105C79C0-589C-4EA9-A98C-5B60B3E71501} = {105C79C0-589C-4EA9-A98C-5B60B3E71501}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOL", "BOL\BOL.csproj", "{105C79C0-589C-4EA9-A98C-5B60B3E71501}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{0795BB21-8D7F-4B6E-829F-EF0A0E464DCF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{105C79C0-589C-4EA9-A98C-5B60B3E71501} = {105C79C0-589C-4EA9-A98C-5B60B3E71501}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B9F5A93D-2601-4441-B91E-B78D3D197441}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9F5A93D-2601-4441-B91E-B78D3D197441}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9F5A93D-2601-4441-B91E-B78D3D197441}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9F5A93D-2601-4441-B91E-B78D3D197441}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CABC6752-AE33-4DEE-908A-A490EA855AC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CABC6752-AE33-4DEE-908A-A490EA855AC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CABC6752-AE33-4DEE-908A-A490EA855AC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CABC6752-AE33-4DEE-908A-A490EA855AC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{105C79C0-589C-4EA9-A98C-5B60B3E71501}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{105C79C0-589C-4EA9-A98C-5B60B3E71501}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{105C79C0-589C-4EA9-A98C-5B60B3E71501}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{105C79C0-589C-4EA9-A98C-5B60B3E71501}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0795BB21-8D7F-4B6E-829F-EF0A0E464DCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0795BB21-8D7F-4B6E-829F-EF0A0E464DCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0795BB21-8D7F-4B6E-829F-EF0A0E464DCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0795BB21-8D7F-4B6E-829F-EF0A0E464DCF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

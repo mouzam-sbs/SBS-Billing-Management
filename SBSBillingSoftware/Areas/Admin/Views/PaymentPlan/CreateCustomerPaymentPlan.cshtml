@@ -1,0 +1,158 @@
+﻿@model BOL.Common.CustomerPaymentPlanModel
+
+@{
+    ViewBag.Title = "CreateCustomerPaymentPlan";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<script src="~/Content/Theme/plugins/datepicker/bootstrap-datepicker.js"></script>
+<link href="~/Content/Theme/plugins/datepicker/datepicker3.css" rel="stylesheet" />
+
+
+
+@using (Html.BeginForm("Create", "CustomerPaymentPlan", FormMethod.Post))
+{
+    <div class="box box-primary">
+        <div class="container">
+
+            <div class="box-header with-border">
+                <h3 class="box-title">Customer Payment Plan</h3>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <label class="control-label">
+                            Plan Name
+                        </label>
+                        <div class="col-10">
+                            <select class="form-control select2  ddnPlanId" aria-hidden="true" name="PlanId">
+                                <option value="0">Select</option>
+
+                                @if (Model.PaymentPlanMasterLists != null)
+                                {
+                                    foreach (var item in Model.PaymentPlanMasterLists)
+                                    {
+                                        string isSelected = string.Empty;
+                                        if (item.Id == Model.PlanId)
+                                        {
+                                            isSelected = "selected";
+                                        }
+                                <option value="@item.Id" @isSelected>@item.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <label for="example-search-input" class="col-2 col-form-label">Creation Date </label>
+                        <div class="col-10">
+                            <input type="text" name="CreateDate" class="form-control" id="datepicker">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-5">
+                        <label class="control-label">
+                            Invoice#
+                        </label>
+                        <div class="col-10">
+                            <select class="form-control select2  ddnInvoiceId" aria-hidden="true" name="InvoiceId">
+                                <option value="0">Select</option>
+
+                                @if (Model.OrderList != null)
+                                {
+                                    foreach (var item in Model.OrderList)
+                                    {
+                                        string isSelected = string.Empty;
+                                        if (item.ID == Model.Id)
+                                        {
+                                            isSelected = "selected";
+                                        }
+                                <option value="@item.ID" @isSelected>@item.InvoiceNumber</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <label for="example-search-input" class="col-2 col-form-label">Invoice Amount</label>
+                        <div class="col-10">
+                            @Html.TextBoxFor(x => x.InvoiceAmount, new { @class = "form-control", @placeholder = "Invoice Amount" })
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-5">
+                        <label>Months</label>
+                        <input type="text" value="@Model.Months" name="Months" class="form-control" readonly />
+                    </div>
+                    <div class="col-md-5">
+                        <label>Amount Per Month </label>
+                        <input type="text" value="@Model.AmountPerMonth" name="AmountPerMonth" class="form-control" readonly />
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-5">
+                        <label>Start Date </label>
+                        <input type="text" name="CreateDate" class="form-control" id="datepicker1">
+                    </div>
+
+                    <div class="col-md-5">
+                        <label>Notes</label>
+                        <textarea name="Note" class="form-control"></textarea>
+                    </div>
+                </div>
+
+                <hr />
+                <div class="row">
+                    <div class="col-md-1">
+                        @if (Model.Id != null && Model.Id != 0)
+                        {
+                            <button type="submit" class="btn btn-success" data-id="@Model.Id" id="btnRegisterUpdate">
+                                Update
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-success" data-id="0" id="btnRegister">
+                                Submit
+                            </button>
+                        }
+                    </div>
+                    <div class="col-md-1">
+                        <button value="Edit"
+                                class="btn btn-danger" type="button" id="addressSearch"
+                                onclick="location.href='@Url.Action("Index", "CustomerPaymentPlan")'">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+          
+
+
+        </div>
+    </div>
+
+}
+
+
+<script>
+    $(function () {
+        //Date picker
+        $('#datepicker').datepicker({
+            autoclose: true
+        });
+
+        $('#datepicker1').datepicker({
+            autoclose: true
+        });
+
+    });
+</script>

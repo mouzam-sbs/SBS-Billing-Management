@@ -1,0 +1,232 @@
+﻿@model BOL.Common.CustomerModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <!-- Profile Image -->
+        <div class="box box-primary">
+            <div class="box-body box-profile">
+                @{
+                    string base64Product = string.Empty;
+                    string ProfileImage = string.Empty;
+                    if (Model.ProfilePic1 != null)
+                    {
+                        base64Product = Convert.ToBase64String(Model.ProfilePic1);
+                        ProfileImage = string.Format("data:image/jpg;base64,{0}", base64Product);
+                    }
+
+                }
+                <img class="profile-user-img img-responsive img-circle" src='@ProfileImage' height="150" width="150" />
+
+                <h3 class="profile-username text-center">@Model.CustomerName</h3>
+                <p class="text-muted text-center">Software Engineer</p>
+                <ul class="list-group list-group-unbordered">
+                    <li class="list-group-item">
+                        <b>Email</b> <a class="pull-right">@Model.Email</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Contact</b> <a class="pull-right">@Model.Mobile</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Alternate Number</b> <a class="pull-right">@Model.AlternateMobile</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Address</b> <a class="pull-right">@Model.Address</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Remark</b> <a class="pull-right">@Model.Remark</a>
+                    </li>
+                </ul>
+                <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+
+    </div>
+    <!-- /.col -->
+    <div class="col-md-9">
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#activity" data-toggle="tab">Overview</a></li>
+                <li><a href="#timeline" data-toggle="tab">Invoices</a></li>
+                <li><a href="#settings" data-toggle="tab">Settings</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="active tab-pane" id="activity">
+                    <div class="row container">
+                        <div class="form-inline">
+                            <label>Id Proof</label>
+                            @{
+                                string Idproof = string.Empty;
+                                string IdproofImage = string.Empty;
+                                if (Model.IdProofPic4 != null)
+                                {
+                                    Idproof = Convert.ToBase64String(Model.IdProofPic4);
+                                    IdproofImage = string.Format("data:image/jpg;base64,{0}", Idproof);
+                                }
+
+                            }
+                            <img class="img-responsive img-thumbnail" src='@IdproofImage' height="150" width="150" />
+
+                        </div>
+
+                        <div class="form-inline">
+                            <label>Attachments</label>
+                            @{
+                                string attachment1 = string.Empty;
+                                string attachment11 = string.Empty;
+                                if (Model.AttachmentPic1 != null)
+                                {
+                                    attachment1 = Convert.ToBase64String(Model.AttachmentPic1);
+                                    attachment11 = string.Format("data:image/jpg;base64,{0}", attachment1);
+                                }
+
+                            }
+
+                            <img class="img-responsive img-thumbnail" src='@attachment11' height="150" width="150" />
+
+                        </div>
+
+                        <div class="form-inline">
+                            <label>Attachments</label>
+                            @{
+                                string attachment12 = string.Empty;
+                                string attachment22 = string.Empty;
+                                if (Model.AttachmentPic2 != null)
+                                {
+                                    attachment12 = Convert.ToBase64String(Model.AttachmentPic2);
+                                    attachment22 = string.Format("data:image/jpg;base64,{0}", attachment12);
+                                }
+
+                            }
+
+                            <img class="img-responsive img-thumbnail" src='@attachment22' height="150" width="150" />
+
+                        </div>
+
+
+                        <div class="form-inline">
+                            <label>Attachments</label>
+                            @{
+                                string attachment13 = string.Empty;
+                                string attachment33 = string.Empty;
+                                if (Model.AttachmentPic3 != null)
+                                {
+                                    attachment13 = Convert.ToBase64String(Model.AttachmentPic3);
+                                    attachment33 = string.Format("data:image/jpg;base64,{0}", attachment13);
+                                }
+
+                            }
+
+                            <img class="img-responsive img-thumbnail" src='@attachment33' height="150" width="150" />
+
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.tab-pane -->
+                <div class="tab-pane" id="timeline">
+                    <table class="table table-bordered table-hover table-responsive">
+                        <thead>
+                            <tr>
+                                <td class="hide">Id</td>
+                                <td><b>Invoice Id</b></td>
+                                <td><b>Invoice date</b></td>
+                                <td><b>Customer Name</b></td>
+                                <td><b>Discount</b></td>
+                                <td><b>Total</b></td>
+                            </tr>
+                        </thead>
+                        <tbody id="tblBodyOrderList">
+                            @if (Model.OrderList != null)
+                            {
+                                foreach (var item in Model.OrderList)
+                                {
+                                    <tr data-id="@item.ID">
+                                        <td class="hide">@item.ID</td>
+                                        <td><a href="@Url.Action("Index","Invoice",new { area="Admin", @id=item.ID})">@item.InvoiceNumber</a></td>
+                                        <td>@item.InvoiceDate</td>
+                                        <td>@item.CustomerName</td>
+                                        <td>@item.Discount</td>
+                                        <td>@item.GrandTotal</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr><td colspan="5">No records found.</td></tr>
+                            }
+                        </tbody>
+                    </table>
+
+
+
+                </div>
+                <!-- /.tab-pane -->
+                <div class="tab-pane" id="settings">
+                    <div class="settingsPaymentsDetails">
+                        @if (Model.OrderList != null)
+                        {
+                            foreach (var item in Model.OrderList)
+                            {
+                                <ul class="timeline" data-id="@item.ID">
+
+                                    <!-- timeline time label -->
+                                    <li class="time-label">
+                                        <span class="bg-red">
+                                            @item.InvoiceDate
+                                        </span>
+                                    </li>
+                                    <!-- /.timeline-label -->
+                                    <!-- timeline item -->
+                                    <li>
+                                        <!-- timeline icon -->
+                                        <i class="fa fa-envelope bg-blue"></i>
+                                        <div class="timeline-item">
+                                            <span class="time"><i class="fa fa-clock-o"></i> @item.InvoiceDate.ToString()</span>
+
+                                            <h4 class="timeline-header">Invoice added</h4>
+
+                                            <div class="timeline-body">
+                                                Invoice @item.InvoiceNumber of amount Rs. @item.GrandTotal created by @item.CreatedBy - <a href="@Url.Action("Index","Invoice",new { area="Admin", @id=item.ID})">View Details</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    @if (@item.PaymentList != null && @item.PaymentList.Any())
+                                    {
+                                        foreach (var itemPayment in @item.PaymentList)
+                                        {
+                                            <li>
+                                                <!-- timeline icon -->
+                                                <i class="fa fa-envelope bg-blue"></i>
+                                                <div class="timeline-item">
+                                                    <span class="time"><i class="fa fa-clock-o"></i> @itemPayment.PaymentDate.ToString()</span>
+
+                                                    <h4 class="timeline-header">Payment made on @itemPayment.CreatedDate</h4>
+
+                                                    <div class="timeline-body">
+                                                        Payment made for invoice @item.InvoiceNumber of amount Rs. @itemPayment.PaidAmount. Balance amount pending is @itemPayment.BalanceAmount - <a href="@Url.Action("Index","Invoice",new { area="Admin", @id=item.ID})">View Details</a>
+                                                        <p>Payment made to Mouzam</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            }
+                        }
+                    </div>
+                </div>
+                <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
+        </div>
+        <!-- /.nav-tabs-custom -->
+    </div>
+    <!-- /.col -->
+</div>

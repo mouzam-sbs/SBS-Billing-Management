@@ -1,0 +1,203 @@
+﻿
+
+@model BOL.Common.ProductModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Add New Product</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6" id="success-alert">
+                @if (TempData["Msg"] != null)
+        {
+        <div class="alert alert-success alert-dismissible ">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4>
+                @TempData["Msg"]
+
+
+            </h4>
+
+        </div>
+        }
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+
+
+
+        @using (Html.BeginForm("Create", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Product Name</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input type="hidden" class="form-control" id="txtProductId" value="@Model.ID" name="txtId">
+                                <input type="text" class="form-control" id="txtProductName" value="@Model.ProductName" name="ProductName" placeholder="Default Input">
+                            </div>
+                        </div>
+                        <div class="divider">&nbsp;</div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Description</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <textarea class="form-control" name="Description" id="txtProductDesc">@Model.Description</textarea>
+                            </div>
+                        </div>
+                        <div class="divider">&nbsp;</div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Price</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input type="text" class="form-control" id="txtProductPrice" value="@Model.Price" name="Price" placeholder="Default Input">
+                            </div>
+                        </div>
+                        <div class="divider">&nbsp;</div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Category</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                @*<input type="hidden" id="hdnCategoryId" value="@(Model.ParentID)" />*@
+                                <select class="form-control select2_single " id="ddnCategory" name="CategoryId">
+                                    <option value="0">Select Category Name</option>
+                                    @if (Model.CategoryList != null)
+                                    {
+                                        foreach (var item in Model.CategoryList)
+                                        {
+                                            string isSelected = string.Empty;
+                                            if (item.CategoryId == Model.CategoryId)
+                                            {
+                                                isSelected = "selected";
+                                            }
+                                            <option value="@item.CategoryId" @isSelected>@item.CategoryName</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="divider">&nbsp;</div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Product Image</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input type="file" class="form-control" name="Files" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" id="btnSaveProduct">Save changes</button>
+
+            </div>
+
+        }
+
+
+        <style>
+            .imageRegistration {
+                width: 150px;
+                height: 150px;
+            }
+
+            .stepContainer {
+                height: 200px;
+            }
+        </style>
+        <script>
+            initProduct();
+        </script>
+
+        @*<script>
+
+                $(document).ready(function () {
+                    //Save product
+                    $(document).on("click", "#btnSaveProduct", function (e) {
+
+                        var _productRegistrationModal = {
+                           // ID: _productId,
+                            ProductName: $("#txtProductName").val(),
+                            Description:  $("#txtProductDesc").val(),
+                            Price: $("#txtProductPrice").val(),
+                            CategoryId: $("#ddnCategory option:selected"),
+                            Image: _productImageBase64.val(),
+                            ImageType: _productImageBase64Ext.val()
+                        };
+
+                        $.ajax({
+                            url: folderBaseURL + "Admin/Product/AddProduct",
+                            type: "POST",
+                            data: _productRegistrationModal,
+                            success: function (response) {
+                                toastr.success("Product Registered");
+
+
+                                clearModalProducts();
+                            },
+                            error: function (err) {
+                                toastr.error("Product registration failed: Internal server error");
+                                buttonEnableReg();
+                                console.log(err);
+                            }
+                        });
+                    });
+
+                    $(document).on("change", "#uploadProductImage", function (e) {
+                        if (this.files && this.files[0]) {
+                            var _filesName = this.files[0];
+                            var FR = new FileReader();
+                            FR.onload = function (e) {
+                                var _imageSrcB64 = e.target.result;
+                                var _extension = GetProperImageExtension(_filesName.name.split('.').pop().toLowerCase());
+                                imageShowHide(_imageSrcB64, true, _extension);
+                            };
+                            FR.readAsDataURL(this.files[0]);
+                        }
+                    });
+                });
+
+                function imageShowHide(_imgSrc, _isVisible, _fileExt) {
+                    if (_fileExt != undefined && _fileExt != null && _fileExt.trim() != "") {
+                        _fileExt = _fileExt.trim();
+                    } else {
+                        _fileExt = "";
+                    }
+                    var _image = $("#imageProduct");
+                    _productImageBase64.val('');
+                    _productImageBase64Ext.val('');
+                    if (_isVisible) {
+                        _image.removeClass("hide");
+                        _image.attr("src", _imgSrc);
+                        var _imageBase64Hdn = _imgSrc.replace("data:image/" + _fileExt + ";base64,", "");
+                        _productImageBase64.val(_imageBase64Hdn);
+                        _productImageBase64Ext.val(_fileExt);
+                    } else {
+                        if (!_image.hasClass("hide")) {
+                            _image.addClass("hide");
+                        }
+                        _image.attr("src", "");
+                    }
+                }
+                function clearModalProducts() {
+                    $("#txtProductName").val("");
+                    $("#txtProductDesc").val("");
+                    $("#txtProductPrice").val("");
+                    $("#ddnCategory").val("0");
+                    $("#uploadProductImage").val("");
+                    imageShowHide("", false,"");
+                }
+
+            </script>*@
+
+
+
+
+
+        </div>
+</div>

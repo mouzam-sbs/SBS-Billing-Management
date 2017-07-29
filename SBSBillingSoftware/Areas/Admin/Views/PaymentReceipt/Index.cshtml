@@ -1,0 +1,107 @@
+﻿@model BOL.Common.PaymentModel
+@using SBSBillingSoftware.Helpers
+@{
+    ViewBag.Title = "Generate payment receipt";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage1.cshtml";
+}
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h1 style="text-align:center;">Payment Reciept</h1>
+    </div>
+    <div class="box-body" id="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-4"><h4>Recieved From</h4></div>
+                        <div class="col-md-4" style="border-bottom:solid 1px #e8e8e8"><h4>@Model.NameCustomer</h4></div>
+                        <div class="col-md-4"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4"><h4>Payment Date</h4></div>
+                        <div class="col-md-4" style="border-bottom:solid 1px #e8e8e8"><h4>@Model.DisplayPaymentDate</h4></div>
+                        <div class="col-md-4"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4"><h4>Payment mode</h4></div>
+                        <div class="col-md-4" style="border-bottom:solid 1px #e8e8e8"><h4>@Model.PaymentMadeName</h4></div>
+                        <div class="col-md-4"></div>
+                    </div>
+                </div>
+                <div class="col-md-2" style="background-color:#009b14;color:#fff">
+                    <h4 style="text-align:center">Amount Recieved</h4>
+                    <h3 style="text-align:center">Rs.@Model.Amount</h3>
+                </div>
+            </div>
+
+            <h4>Payment For</h4>
+            <table class="table table-bordered table-responsive">
+                <thead>
+                    <tr>
+                        <th>Invoice Number</th>
+                        <th>Invoice Date</th>
+                        <th>Invoice Amount</th>
+                        <th>Payment Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.paymentList != null && Model.paymentList.Any())
+                    {
+                        foreach (var item in Model.paymentList)
+                        {
+                    <tr>
+                        <td>@CommonHelp.GenerateInvoiceNumber(Convert.ToInt64(item.OrderId))</td>
+                        <td>@item.InvoiceDate</td>
+                        <td>@item.TotalAmount</td>
+                        <td>@item.PaidAmount</td>
+                    </tr>
+                        }
+                    }
+                    else
+                    {
+                    <tr>
+                        <td colspan="4">No payment made</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="row">
+                <div class="col-md-4">
+
+                    <button id="printreciept" target="_blank" class="btn btn-primary" ><i class="fa fa-print"></i> Print</button>
+                    <button id="cmd" type="button" class="btn btn-primary " style="margin-right: 5px;">
+                        <i class="fa fa-download"></i> Generate PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+
+
+        $(document).on("click", "#printreciept", function (e) {
+            $("#printreciept").css("display","none");
+            window.print();
+          
+        });
+
+        var doc = new jsPDF();
+        var specialElementHandlers = {
+            '#editor': function (element, renderer) {
+                return true;
+            }
+        };
+
+        $('#cmd').click(function () {
+            doc.fromHTML($('#content').html(), 15, 15, {
+                'width': 170,
+                'elementHandlers': specialElementHandlers
+            });
+            doc.save('sample-file.pdf');
+        });
+    });
+</script>

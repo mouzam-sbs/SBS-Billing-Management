@@ -1,0 +1,229 @@
+﻿@model BOL.Common.CustomerModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Add New Customer</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6" id="success-alert">
+                @if (TempData["Msg"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible ">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4>
+                            @TempData["Msg"]
+
+
+                        </h4>
+
+                    </div>
+                }
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+
+        @using (Html.BeginForm("Create", "Customer", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-md-8">
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Customer Name</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input type="text" class="form-control RequiredTextField" id="txtCustomerName" value="@Model.CustomerName" name="CustomerName" placeholder="Customer Name">
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Mobile</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input type="text" class="form-control RequiredTextField" id="txtMobile" value="@Model.Mobile" name="Mobile" placeholder="Mobile">
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Email</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input type="text" class="form-control RequiredTextField" id="txtEmail" value="@Model.Email" name="Email" placeholder="Email">
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Date of Birth</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input type="date" class="form-control RequiredTextField" id="clnDob" value="@Model.DOB" name="DOB">
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Alternate Mobile</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input type="text" class="form-control RequiredTextField" id="txtAlternateMobile" value="@Model.AlternateMobile" name="AlternateMobile" placeholder="Alternate Mobile">
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Address</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input type="text" class="form-control RequiredTextField" id="txtAddress" value="@Model.Address" name="Address" placeholder="Address">
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Remark</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <textarea class="form-control RequiredTextField" id="txtRemark" value="@Model.Remark" name="Remark"></textarea>
+                            </div>
+                        </div>
+
+                        <br />
+                        <b />
+                        <div class="divider">&nbsp;</div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Profile pic</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input type="file" class="form-control" name="Files" />
+                            </div>
+                        </div>
+
+                        <div class="divider">&nbsp;</div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Attachment1</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input type="file" class="form-control" name="Files" />
+                            </div>
+                        </div>
+                        <div class="divider">&nbsp;</div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Attachment2</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input type="file" class="form-control" name="Files" />
+                            </div>
+                        </div>
+                        <div class="divider">&nbsp;</div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Attachment2</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input type="file" class="form-control" name="Files" />
+                            </div>
+                        </div>
+                        <div class="divider">&nbsp;</div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Id Proof(UID)</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input type="file" class="form-control" name="Files" />
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" class="form-control" id="ID" value="@Model.ID" name="ID">
+                </div>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" id="btnSaveProduct">Save changes</button>
+
+            </div>
+
+        }
+        <style>
+            .imageRegistration {
+                width: 150px;
+                height: 150px;
+            }
+
+            .stepContainer {
+                height: 200px;
+            }
+        </style>
+        <script>
+            initCustomer();
+        </script>
+
+    </div>
+</div>
+
+@*<div class="row" id="listCustomer">
+        @Html.Action("AddCustomer")
+    </div>*@
+
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/toastr.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $(document).on("click", "#btnRegister,#btnRegisterUpdate", function (e) {
+            var _CustomerModel = {
+                ID: $("#hdnCustomerId").val(),
+                CustomerName: $("#txtCustomerName").val(),
+                Mobile: $("#txtMobile").val(),
+                Email: $("#txtEmail").val(),
+                DOB: $("#clnDob").val()
+
+            };
+            buttonDisabledReg();
+            $.ajax({
+                url: folderBaseURL + "/Admin/Customer/AddCustomer",
+                type: "POST",
+                data: _CustomerModel,
+                success: function (response) {
+                    $("#listCustomer").empty().append(response);
+                    buttonEnableReg();
+                    toastr.success("Customer Inserted");
+                    if (response != null) {
+                        Clear();
+                        window.location.href = '/Admin/Customer/Index';
+                    }
+                },
+                error: function (err) {
+                    toastr.error("Registration failed: Internal server error");
+                    buttonEnableReg();
+                    console.log(err);
+                }
+            });
+        });
+    });
+
+    function Clear()
+    {
+        $("#hdnCustomerId").val("");
+        $("#txtCustomerName").val("");
+        $("#txtMobile").val("");
+        $("#txtEmail").val("");
+        $("#clnDob").val("");
+    }
+    function buttonEnableReg() {
+        $("#btnRegister span,#btnRegisterUpdate span").hide();
+        $("#btnRegister,#btnRegisterUpdate").prop("disabled", false);
+    }
+
+
+    function buttonDisabledReg() {
+        $("#btnRegister span,#btnRegisterUpdate span").show();
+        $("#btnRegister,#btnRegisterUpdate").prop("disabled", true);
+    }
+
+    function ClearFields() {
+        $(".RequiredTextField").each(function () {
+            $(this).val('');
+        });
+        $(".RequiredRadioField").each(function () {
+            $(this).prop('checked', false);
+        });
+        $("#txtGuarId,#txtId").val('0');
+    }
+</script>

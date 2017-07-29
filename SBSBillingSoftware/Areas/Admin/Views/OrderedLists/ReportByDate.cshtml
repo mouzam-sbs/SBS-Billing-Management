@@ -1,0 +1,186 @@
+﻿@model  BOL.Common.OrderModel 
+@{
+    ViewBag.Title = "ReportByDate";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage1.cshtml";
+}
+
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <div class="row">
+                    <div class="col-md-2 ">
+                        <h3 class="box-title">All Invoices</h3>
+
+                    </div>
+                    
+                    @using (Html.BeginForm("ReportByDate", "OrderedLists", FormMethod.Post))
+                    {
+                        <div class="col-md-6 ">
+                            FromDate <input type="date" name="FromDate" id="FromDate" value="" class="form-control" />
+                            ToDate <input type="date" name="ToDate" id="ToDate" value="" class="form-control" />
+                            <br />
+                            <input type="submit" value="Submit" class="btn btn-success" />
+                        </div>
+
+                    }
+                    @*<div class="col-md-2">
+                        <div class="dropdown" id="btnOption">
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                Export To
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Excel", "ExportTo", new { ReportType = "Excel" })</li>
+                                <li>@Html.ActionLink("PDF", "ExportTo", new { ReportType = "PDF" })</li>
+                            </ul>
+                        </div>
+                    </div>*@
+                    
+                </div>
+
+
+            </div>
+            <div class="row">
+                 <div class="col-lg-10"></div>
+                <div class="col-lg-2">
+                    <div class="col-md-2 col-xs-12">
+                        <form action="~/Admin/OrderedLists/ConvertHtmlPageToPdf" id="formHtmlToPdf" method="post">
+                            <input type="hidden" name="htmlToPdf" id="htmlToPdf" />
+                            <input type="hidden" name="pdfFileName" id="pdfFileName" />
+                        </form>
+                        <div class="dropdown" id="btnOption">
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                Option
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" id="printInvoice">Print</a></li>
+                                <li><a href="#" id="downloadInvoicePDF">Download as PDF</a></li>
+                            </ul>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                
+                <div class="box-body">
+                    <div class="col-lg-12 " id="invoiceDiv">
+                        <table class="table table-bordered table-hover table-responsive" id="datatable">
+                            <thead>
+                                <tr>
+                                    <td class="hide">Id</td>
+                                    <td><b>Invoice Id</b></td>
+                                    <td><b>Invoice date</b></td>
+                                    <td><b>Customer Name</b></td>
+                                    <td><b>Discount</b></td>
+                                    <td><b>Total</b></td>
+                                </tr>
+                            </thead>
+                            <tbody id="tblBodyOrderList">
+                                @if (Model.OrderList != null)
+                                {
+                                    foreach (var item in Model.OrderList)
+                                    {
+                                        <tr >
+                                            <td class="hide">@item.ID</td>
+                                            <td><a href="@Url.Action("Index","Invoice",new { area="Admin", @id=item.ID})">@item.InvoiceNumber</a></td>
+                                            <td>@item.InvoiceDate</td>
+                                           <td>@item.CustomerName</td>
+                                            <td>@item.Discount</td>
+                                            <td>@item.GrandTotal</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr><td colspan="5">No records found.</td></tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="printDivInvoice">
+
+    </div>
+</div>
+
+<style>
+    .table > tbody > tr > .no-line {
+        border-top: none;
+    }
+
+    .table > thead > tr > .no-line {
+        border-bottom: none;
+    }
+
+    .table > tfoot > tr > .thick-line {
+        border-top: 2px solid;
+    }
+</style>
+
+<script>
+    var printAction = $("#printInvoice");
+    var downloadPDFAction = $("#downloadInvoicePDF");
+    var docPDF = new jsPDF();
+    var specialElementHandlers = {
+        '#printDivInvoice': function (element, renderer) {
+            return true;
+        }
+    };
+    $(document).on("click", "#printInvoice", function () {
+        PrintGridData();
+    });
+    $(document).on("click", "#downloadInvoicePDF", function () {
+        $.get(folderBaseURL + 'Content/Theme/bootstrap/css/bootstrap.min.css', function (dataCss) {
+            dataCss = "<head><style>#btnOption{display:none;}" + dataCss + "</style></head>";
+            var prtInvoice = document.getElementById('invoiceDiv');
+            var htmlToPDF = "<html>" + dataCss + "<body>" + prtInvoice.outerHTML + "</body></html>";
+            $("#htmlToPdf").val(htmlToPDF);
+            var invStr = $("#invNumber").data("invoicelabel");
+            var invNumber = $("#invNumber").data("invoicenumber");
+            var pdfFileName = invStr + invNumber;
+            $("#htmlToPdf").val(htmlToPDF);
+            $("#pdfFileName").val(pdfFileName);
+            $("#downloadInvoicePDF").prop("disabled", true);
+            setTimeout(function () {
+                $("#formHtmlToPdf").submit();
+                $("#downloadInvoicePDF").prop("disabled", false);
+            }, 2000);
+
+            //$.ajax({
+            //    url: folderBaseURL+'Admin/Invoice/ConvertHtmlPageToPdf',
+            //    data: { htmlText: htmlToPDF },
+            //    type:'POST',
+            //    success: function (responseData) {
+
+            //    },
+            //    error: function (err) {
+            //        alert("Error");
+            //    }
+            //});
+        });
+    });
+    function PrintGridData() {
+        $.get(folderBaseURL + 'Content/Theme/bootstrap/css/bootstrap.min.css', function (dataCss) {
+            dataCss = "<style>#btnOption{display:none;}" + dataCss + "</style>";
+            var prtInvoice = document.getElementById('invoiceDiv');
+            prtInvoice.border = 0;
+            var htmlToPrint = dataCss + prtInvoice.outerHTML;
+            var prtwin = window.open('', 'PrintInvoiceData', 'left=100,top=100,width=1000,height=1000,tollbar=0,scrollbars=1,status=0,resizable=1');
+            prtwin.document.write(htmlToPrint);
+            prtwin.document.close();
+            prtwin.focus();
+            prtwin.print();
+            prtwin.close();
+        });
+    }
+</script>

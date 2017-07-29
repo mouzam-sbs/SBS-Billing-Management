@@ -1,0 +1,96 @@
+﻿@model BOL.Common.BillingModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage1.cshtml";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <div class="row">
+                    <div class="col-md-2 ">
+                        <h3 class="box-title">All Invoices</h3>
+                        
+                    </div>
+                    <div class="col-md-6 ">
+                            <input type="text" id="txtSearchOrder" value="" class="form-control" placeholder="Search" />                                              
+                    </div>
+
+                    <div class="col-md-2 ">
+                        <input type="button" class="btn btn-danger" value="New Invoice" onclick="location.href='@Url.Action("Index", "Billing")'" />
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="dropdown" id="btnOption">
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                Export To
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Excel","ExportTo", new {ReportType="Excel" })</li>
+                                <li>@Html.ActionLink("PDF", "ExportTo", new { ReportType = "PDF" })</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+              
+            </div>
+            <div class="row">
+                <div class="box-body">
+                    <div class="col-lg-12">
+                        <table class="table table-bordered table-hover table-responsive">
+                            <thead>
+                                <tr>
+                                    <td class="hide">Id</td>
+                                    <td><b>Invoice Id</b></td>
+                                    <td><b>Invoice date</b></td>
+                                    <td><b>Customer Name</b></td>
+                                    <td><b>Discount</b></td>
+                                    <td><b>Total</b></td>
+                                </tr>
+                            </thead>
+                            <tbody id="tblBodyOrderList">
+                                @if (Model.OrderList != null)
+                                {
+                                    foreach (var item in Model.OrderList)
+                                    {
+                                        <tr data-id="@item.OrderId">
+                                            <td class="hide">@item.OrderId</td>
+                                            <td><a href="@Url.Action("Index","Invoice",new { area="Admin", @id=item.OrderId})">@item.InvoiceNumber</a></td>
+                                            <td>@item.InvoiceDate</td>
+                                            <td>@item.CustomerName</td>
+                                            <td>@item.Discount</td>
+                                            <td>@item.GrandTotal</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr><td colspan="5">No records found.</td></tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $('#txtSearchOrder').on('keyup', function () {
+        var value = $(this).val();
+        var patt = new RegExp(value, "i");
+
+        $('#tblBodyOrderList').find('tr').each(function () {
+            if (!($(this).find('td').text().search(patt) >= 0)) {
+                $(this).hide();
+            }
+            if (($(this).find('td').text().search(patt) >= 0)) {
+                $(this).show();
+            }
+        });
+    });
+</script>

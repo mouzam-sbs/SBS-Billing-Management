@@ -1,0 +1,153 @@
+﻿@model BOL.Common.ProductModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage1.cshtml";
+}
+<script src="~/Scripts/bootstrap.min.js"></script>
+ 
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Add Category</h3>
+            </div>
+            <div class="box-body">
+                <table class="table table-bordered table-hover table-responsive">
+                    <thead>
+                        <tr>
+                            <td><b> Id</b></td>
+                            <td><b>Product Name</b></td>
+                            <td><b>Description</b></td>
+                            <td><b>Category Name</b></td>
+                            <td><b>Price</b></td>
+                            <td><b>Image</b></td>
+                            <td><b>Edit</b></td>
+                            <td><b>Delete</b></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ProductList)
+            {
+                            <tr>
+                                <td>@item.ID</td>
+                                <td>@item.ProductName</td>
+                                <td>@item.Description</td>
+                                <td>@item.CategoryName</td>
+                                <td>@item.Price</td>
+                                <td>
+                                    @{
+                                        string base64Product = string.Empty;
+                                        string ProductImage = string.Empty;
+                                        if (item.Image != null)
+                                        {
+                                            base64Product = Convert.ToBase64String(item.Image);
+                                            ProductImage = string.Format("data:image/jpg;base64,{0}", base64Product);
+                                        }
+
+                                    }
+                                    <img src='@ProductImage' height="150" width="150" />
+
+                                </td>
+
+
+                                <td>
+                                    <button value="Edit"
+                                            class="btn btn-info btn-sm EditProduct" type="button" data-id="@item.ID">
+                                        Edit
+                                    </button>
+                                </td>
+                                <td>
+                                    <button value="Edit"
+                                            class="btn btn-info btn-sm" type="button">
+                                        Delete
+                                    </button>
+                                </td>
+                                @*<td>@Html.ActionLink("Delete", "Delete", "Category", new { id = item.CategoryId })</td>*@
+
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+<script>
+    var _CategoryName = $("#txtCategoryName");
+    var _ParentId = $("#ddnCategory option:selected");
+    var hdrTextSaveProduct = "Add Product";
+    var hdrTextEditProduct = "Edit Product";
+    function initProduct() {
+        var _CategoryName = $("#txtCategoryName");
+        var _ParentId = $("#ddnCategory option:selected");
+    }
+    $(document).ready(function () {
+        //Save product
+        $(document).on("click", "#btnSaveProduct", function (e) {
+          
+            var _productRegistrationModal = {
+                ID: _productId,
+                ProductName: _productName.val().trim(),
+                Description: _productDesc.val().trim(),
+                Price: productPrice,
+                CategoryId: _productCategoryId.val(),
+                Image: _productImageBase64.val(),
+                ImageType: _productImageBase64Ext.val()
+            };
+           
+            $.ajax({
+                url: folderBaseURL + "Admin/Product/AddProduct",
+                type: "POST",
+                data: _productRegistrationModal,
+                success: function (response) {
+                    $("#tblProducts").empty().append(response);
+                    $().val()
+                    buttonEnableReg();
+                    clearModalProducts();
+                },
+                error: function (err) {
+                    toastr.error("Product registration failed: Internal server error");
+                    buttonEnableReg();
+                    console.log(err);
+                }
+            });
+        });
+       
+        $(document).on("click", "#btnAddProduct", function () {
+            $("#modalProduct").modal("show");
+            loadProductModal("");
+            $("#productModalLabel").empty().append(hdrTextSaveProduct);
+        });
+        $(document).on("click", ".EditProduct", function () {
+            $("#modalProduct").modal("show");
+            loadProductModal($(this).data("id"));
+            $("#productModalLabel").empty().append(hdrTextEditProduct);
+        });
+    });
+    function buttonEnableReg() {
+        $("#btnSaveProduct").prop("disabled", false);
+    }
+
+    function buttonDisabledReg() {
+        $("#btnSaveProduct").prop("disabled", true);
+    }
+   
+    function loadProductModal(_productModalId) {
+        if (_productModalId == undefined || _productModalId==null) {
+            _productModalId = "";
+        }
+        $("#addEditProductPartial").load(folderBaseURL + "Admin/Product/ProductModal/" + _productModalId);
+    }
+    function clearModalProducts() {
+        $("#txtProductName").val("");
+        $("#txtProductDesc").val("");
+        $("#txtProductPrice").val("");
+        $("#ddnCategory").val("0");
+        $("#uploadProductImage").val("");
+        imageShowHide("", false,"");
+    }
+     
+</script>

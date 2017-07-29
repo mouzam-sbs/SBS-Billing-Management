@@ -1,0 +1,329 @@
+﻿@model BOL.Common.PaymentModel
+@{
+    ViewBag.Title = "RecordPayment";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage1.cshtml";
+    SelectList selectList = ViewBag.CustomerList as SelectList;
+}
+
+<link href="~/Content/Theme/dist/css/alt/select2.min.css" rel="stylesheet" />
+
+@*<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">*@
+
+
+@using (Html.BeginForm("RecordPayment", "Payments", FormMethod.Post,new { @id= "FormRecordPayment" }))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Add New Payment</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-2"><label>Customer Name</label></div>
+                        <div class="col-lg-4 col-md-4 col-sm-9 col-xs-8">
+                            <select class="form-control select2  ddnCustomerId" aria-hidden="true" name="CustomerId">
+                                <option value="0">Select Customer Name</option>
+
+                                @if (Model != null && Model.CustomerModelList != null)
+                                {
+                                    foreach (var item in Model.CustomerModelList)
+                                    {
+                                        string isSelected = string.Empty;
+                                        if (item.ID == Model.CustomerId)
+                                        {
+                                            isSelected = "selected";
+                                        }
+                                        <option value="@item.ID" @isSelected>@item.CustomerName</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="form-inline">
+                                <label>Total Balance :</label>
+                                <label id="TotalPayable"> 0</label>
+                                <input type="hidden" id="TotalPayable" />
+                                <div id="chkpayfull"><input type="checkbox" id="paychecked" />PayFull</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-2"><label>Amount</label></div>
+                        <div class="col-lg-4 col-md-4 col-sm-9 col-xs-8">
+                            <input type="text" class="form-control col-md-6" name="PaidAmount" id="txtAmount" />
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-2"><label>Payment Date</label></div>
+                        <div class="col-lg-4 col-md-4 col-sm-9 col-xs-8">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id="datepicker" name="PaymentDate">
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-2"><label>Payment Mode</label></div>
+                        <div class="col-lg-4 col-md-4 col-sm-9 col-xs-8">
+                            <select class="form-control select2  ddnPaymentModeId" aria-hidden="true" name="PaymentModeId">
+                                <option value="0">Select Payment Mode</option>
+
+                                @if (Model.PaymentModeList != null)
+                                {
+                                    foreach (var item in Model.PaymentModeList)
+                                    {
+                                        string isSelected = string.Empty;
+                                        if (item.Id == Model.PaymentModeId)
+                                        {
+                                            isSelected = "selected";
+                                        }
+                                        <option value="@item.Id" @isSelected>@item.Name</option>
+                                    }
+                                }
+                            </select>
+
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-2"><label>Deposit To</label></div>
+                        <div class="col-lg-4 col-md-4 col-sm-9 col-xs-8">
+                            <select class="form-control select2  ddnDepositToId" aria-hidden="true" name="DepositToId">
+                                <option value="0">Select Deposit To</option>
+
+                                @if (Model.DeopsitToList != null)
+                                {
+                                    foreach (var item in Model.DeopsitToList)
+                                    {
+                                        string isSelected = string.Empty;
+                                        if (item.Id == Model.DepositToId)
+                                        {
+                                            isSelected = "selected";
+                                        }
+                                            <
+                                        <option value="@item.Id" @isSelected>@item.Name</option>
+                                    }
+                                }
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <br />
+                    <div class="row">
+                        <div class="col-md-2"><label>Remark</label></div>
+                        <div class="col-lg-4 col-md-4 col-sm-9 col-xs-8">
+                            <input type="text" class="form-control col-md-6" name="Remark"/>
+                        </div>
+                    </div>
+
+                    <br />
+                    <table class="table table-bordered table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Invoice Id</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Balance Amount</th>
+                                <th>Payment</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="loadinvoices"></tbody>
+
+                        <tfoot>
+                            <tr>
+                                <td><button type="submit" id="btnSubmit"  class="btn btn-primary">
+                                    <i class="fa fa-spinner fa-spin hide"></i>  
+                                    Save and Send</button></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><div class="form-inline"><label>Grand Total :</label><label id="GrandTotal"></label></div></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+@*<script src="~/Content/Theme/plugins/jQuery/jquery-2.2.3.min.js"></script>*@
+
+<script src="~/Content/Theme/plugins/select2/select2.full.js"></script>
+@*<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.js"></script>*@
+
+
+
+<script>
+
+
+    //List of invoice payments
+    var _jsonTableInvoicesRow = {
+        PaidAmount: 0,
+        OrderId: 0
+
+    };
+    //payments List
+    var _jsonPaymentList = [];
+
+    var _jsonOrderModel = {
+        PaymentList: _jsonPaymentList,
+        OrderId: 0,
+        TotalPrice: 0,
+        AmountPaid: 0,
+        Balnace: 0
+    };
+    //intial hiding text box
+    $("#chkpayfull").hide();
+
+    $(function () {
+        //Initialize Select2 Elements
+        $(".select2").select2();
+    });
+
+    $(document).ready(function () {
+        //button loader
+        $('#btnSubmit').on('click', function () {
+            $(this).prop("disabled", true);
+            if ($('#btnSubmit i').hasClass("hide")) {
+                $('#btnSubmit i').removeClass("hide");
+            }
+            $("#FormRecordPayment").submit();
+           // var $btn = $(this).button('loading')
+            // business logic...
+           // $btn.button('reset')
+        })
+
+
+        // $("#btnSubmit").prop("disabled", true);
+        $('.ddnCustomerId').change(function () {
+            //   $("#btnSubmit").prop("disabled", true);
+            $.ajax({
+                url: folderBaseURL + 'Admin/Payments/GetInvoicebyId?id=' + this.value,
+                type: 'GET',
+                success: fun2
+            });
+
+            $.ajax({
+                url: folderBaseURL + 'Admin/Payments/GetBalanceAmount?id=' + this.value,
+                type: 'GET',
+                success: fun3
+            });
+
+        });
+
+        $("input#paychecked").change(function () {
+            $("#txtAmount").val($("#TotalPayable").val());
+            copyAmount();
+        });
+    });
+
+    function fun2(response) {
+        $('#loadinvoices').empty();
+        var masterIndex = 1;
+
+        //var _html = '<tr> ' +
+        //                     '<td><label  name="InvoiceId" id="txtInvoiceId"></label></td>' +
+        //                     '<td><label     name="InvoiceDate" id="txtDate"></label></td>' +
+        //                    ' <td><label     name="Amount" id="txtAmount"></label></td>' +
+        //                     '<td><label   name="BalanceAmount" id="txtBalance" ></label></td>' +
+        //                     '<td><input type="text" class="form-control" name="txtPayment"  id="txtPayment" /></td>' +
+        //                 '</tr>'
+        //if (response.length == undefined || response.length == null || response.length == 0) {
+        //    $("#btnSubmit").prop("disabled",true);
+        //} else {
+        //    $("#btnSubmit").prop("disabled", false);
+        //}
+        for (var i = 0; i < response.length; i++) {
+            var _html = '<tr class="loadinvoicestr"> ' +
+                            '<td><label  name="InvoiceDate' + masterIndex + '" id="txtInvoiceId">' + response[i].InvoiceNumber + '</label></td>' +
+                            '<td><label     name="InvoiceDate ' + masterIndex + '" id="txtDate">' + response[i].stringDate + '</label></td>' +
+                           ' <td><label     name="Amount' + masterIndex + '" id="txtAmount"></label>' + response[i].TotalPrice + '</td>' +
+                            '<td><label   name="BalanceAmount' + masterIndex + '"id="txtBalance" class="BalanceAmountTd" data-balanceamount="' + response[i].Balance + '"></label>' + response[i].Balance + '</td>' +
+                            '<td><input type="text" class="form-control txtPayment" name="txtPayment' + masterIndex + '"  id="txtPayment"/></td>' +
+                            '<input type="hidden" value=' + response[i].ID + ' name="OrderId' + masterIndex + '"/> ' +
+                            '<input type="hidden" value=' + response[i].TotalPrice + ' name="Amountval' + masterIndex + '"/> ' +
+                            '<input type="hidden" value=' + response[i].Balance + ' name="BalanceAmountval' + masterIndex + '"/> ' +
+                        '</tr>';
+            $('#loadinvoices').append(_html);
+            masterIndex = ++masterIndex;
+            // var $template = $('#loadinvoices').append(_html);
+
+            // if (i!= response.length) {
+            // $clone = $template
+            //                .clone()
+            // .removeClass('hide')
+            // .removeAttr('id')
+            // .attr('data-master-index', masterIndex)
+            // $clone
+            //.find('[name="InvoiceId"]').attr('name', 'InvoiceId' + masterIndex + '').end()
+            // .find('[name="InvoiceDate"]').attr('name', 'InvoiceDate' + masterIndex + '').end()
+            //.find('[name="Amount"]').attr('name', 'Amount' + masterIndex + '').end()
+            // .find('[name="BalanceAmount"]').attr('name', 'BalanceAmount' + masterIndex + '').end()
+            // .find('[name="txtPayment"]').attr('name', 'txtPayment' + masterIndex + '').end()
+
+            // }
+        }
+
+    }
+    function fun3(response) {
+        var totalpay = response;
+        $("#TotalPayable").empty();
+        $("#TotalPayable").append(response);
+        $("#TotalPayable").val(response);
+        $("#chkpayfull").show();
+
+    }
+
+    function copyAmount() {
+
+        $("#loadinvoices .BalanceAmountTd").each(function () {
+            var amountVal = $(this).data("balanceamount");
+            if (!$("input#paychecked").is(":checked")) {
+                amountVal = '';
+                $("input#txtAmount").val('');
+            }
+            $(this).closest(".loadinvoicestr").find("input.txtPayment").val(amountVal);
+        });
+        grandTotal();
+    }
+    function grandTotal() {
+        $("#GrandTotal").empty();
+        var paymentValNumber = 0;
+        $("#loadinvoices input.txtPayment").each(function () {
+            var paymentVal = $(this).val();
+            if (paymentVal != undefined && paymentVal != null && paymentVal.trim() != "") {
+                paymentValNumber += parseFloat(paymentVal);
+            }
+        });
+        $("#GrandTotal").html(paymentValNumber);
+    }
+    $(document).on("change copy cut paste keypress", "#txtAmount", function (e) {
+
+        var total = $("#txtAmount").val();
+
+        // $("#GrandTotal").append (total);
+
+    });
+    $(document).on("change copy cut paste keyup", "#loadinvoices input.txtPayment", function (e) {
+        grandTotal();
+    });
+
+
+</script>

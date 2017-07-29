@@ -1,0 +1,200 @@
+﻿@model BOL.Common.AssignCustomerModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage1.cshtml";
+}
+
+
+
+<link href="~/Content/Theme/dist/css/alt/select2.min.css" rel="stylesheet" />
+<style>
+    subject-info-box-1, .subject-info-box-2 {
+        float: left;
+        width: 45%;
+    }
+
+    select {
+        height: 600PX;
+        padding: 0;
+    }
+
+    option {
+        padding: 5px;
+    }
+
+        option:hover {
+            background: #EEEEEE;
+        }
+
+
+    .subject-info-arrows {
+        width: 10%;
+    }
+    .boxwith {
+        width:100%;
+        height:500px;
+    }
+    input {
+        margin-bottom: 5px;
+    }
+</style>
+@using (@Html.BeginForm())
+{
+    <div class="container">
+        <div class="row">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">User Assign</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-4"><h5>Customer List</h5></div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-4">
+                            <select class="form-control select2  ddnCustomerId" aria-hidden="true" name="UserId">
+                                <option value="0">Select User Name</option>
+
+                                @if (ViewBag.UserList != null)
+                                {
+                                    foreach (var item in ViewBag.UserList)
+                                    {
+
+                                        <option value="@item.Id">@item.UserName</option>
+                                    }
+                                }
+                            </select>
+
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="button" id="btnAllRight" value="Assign All" class="btn  btn-success" /><br />
+                            <div class="subject-info-box-1">
+
+                                @*<select multiple="multiple" id='lstBox1'  name="ID" class="form-control">
+                                        @if (ViewBag.CustomerList != null)
+                                        {
+                                            foreach (var item in ViewBag.CustomerList)
+                                            {
+
+                                                <option value="@item.ID">@item.CustomerName</option>
+                                                }
+                                            }
+                                    </select>*@
+
+                                @Html.ListBoxFor(x => x.SelectedCustomers, Model.CustomerList1, new { id = "lstBox1", @class= "boxwith" })
+                            </div>
+                        </div>
+                        <div class="col-md-1" style="text-align:center;">
+                            <div class="subject-info-arrows text-center" style="text-align:center;">
+                                <br />
+                                <br />
+                                <input type="button" id="btnRight" value=">>" class="btn btn-default btn-lg" /><br />
+                                <input type="button" id="btnLeft" value="<<" class="btn btn-default btn-lg" /><br />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="button" id="btnAllLeft" value="Remove All" class="btn btn-danger" />
+
+                            <div class="subject-info-box-1">
+                                @Html.ListBoxFor(x => x.SelectedCustomers, Model.CustomerList2, new { id = "lstBox2", @class = "boxwith" })
+
+
+                                @*<select multiple="multiple" id='lstBox2' class="form-control"></select>*@
+                            </div>
+
+                            <button type="submit" id="AssignCustomers" class="btn btn-default">Assign Customer</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+    </div>
+}
+<script src="~/Content/Theme/plugins/select2/select2.full.js"></script>
+<script>
+    $(function () {
+        //Initialize Select2 Elements
+        $(".select2").select2();
+    });
+
+    (function () {
+
+
+        $('#btnRight').click(function (e) {
+            var selectedOpts = $('#lstBox1 option:selected');
+            if (selectedOpts.length == 0) {
+                alert("Nothing to move.");
+                e.preventDefault();
+            }
+            $('#lstBox2').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+            e.preventDefault();
+        });
+        $('#btnAllRight').click(function (e) {
+            var selectedOpts = $('#lstBox1 option');
+            if (selectedOpts.length == 0) {
+                alert("Nothing to move.");
+                e.preventDefault();
+            }
+            $('#lstBox2').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+            e.preventDefault();
+        });
+        $('#btnLeft').click(function (e) {
+            var selectedOpts = $('#lstBox2 option:selected');
+            if (selectedOpts.length == 0) {
+                alert("Nothing to move.");
+                e.preventDefault();
+            }
+            $('#lstBox1').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+            e.preventDefault();
+        });
+        $('#btnAllLeft').click(function (e) {
+            var selectedOpts = $('#lstBox2 option');
+            if (selectedOpts.length == 0) {
+                alert("Nothing to move.");
+                e.preventDefault();
+            }
+            $('#lstBox1').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+            e.preventDefault();
+        });
+
+    }(jQuery));
+
+    $(document).ready(function () {
+        var List = [];
+        $('#lstBox2').change(function () {
+
+
+            var stringArray = '';
+            List.splice();
+            $('#lstBox2 option:selected').each(function () {
+
+                stringArray = this.value
+                List.push(stringArray);
+
+            });
+        });
+
+        //$("#AssignCustomers").click(function () {
+        //    var str = JSON.stringify(List);
+
+        //        $.ajax({
+        //            url: 'http://localhost:55591/Admin/AssignCustomer/AssignCustomerList',
+        //            type: "POST",
+        //            data: JSON.stringify(List),
+        //        });
+
+        //});
+
+    });
+</script>
