@@ -46,6 +46,8 @@ namespace SBSBillingSoftware.Areas.Admin.Controllers
                 _PaymentPlanMasterModel.PaymentPlanMasterLists = _PaymentPlanMasterBs.PaymentPlanMasterList().ToList();
             }
 
+            
+
             return View(_PaymentPlanMasterModel);
         }
 
@@ -75,8 +77,8 @@ namespace SBSBillingSoftware.Areas.Admin.Controllers
         }
 
 
-       
-       
+
+
 
         // GET: Admin/CustomerPaymentPlan
         public ActionResult CustomerPaymentPlans()
@@ -107,13 +109,17 @@ namespace SBSBillingSoftware.Areas.Admin.Controllers
                 _CustomerPaymentPlanModel.PaymentPlanMasterLists = _CustomerPaymentPlanBs.PaymentPlanMasterList().ToList();
 
             }
+            if (TempData["msg"] != null)
+            {
+                TempData["message"] = TempData["msg"];
+            }
 
             return View(_CustomerPaymentPlanModel);
         }
 
 
         [HttpPost]
-        public ActionResult Create(CustomerPaymentPlanModel model)
+        public ActionResult SaveCustomerPaymentPlan(CustomerPaymentPlanModel model)
         {
             int i = 0;
             if (model != null)
@@ -123,15 +129,30 @@ namespace SBSBillingSoftware.Areas.Admin.Controllers
             if (i > 0)
             {
                 TempData["msg"] = "Customer Payment Created Successfully";
-                return RedirectToAction("Index", "CustomerPaymentPlan", new { area = "Admin" });
+                return RedirectToAction("CreateCustomerPaymentPlan", "PaymentPlan", new { area = "Admin" });
             }
             else
             {
                 _CustomerPaymentPlanModel.CustomerPaymentPlanLists = _CustomerPaymentPlanBs.CustomerPaymentPlanList().ToList();
                 TempData["msg"] = "Customer Payment Not Created";
-                return RedirectToAction("Create", _CustomerPaymentPlanModel);
-            }
+                return RedirectToAction("CreateCustomerPaymentPlan", "PaymentPlan", new { area = "Admin" });
 
+            }
         }
+        [HttpGet]
+        public JsonResult GetMonths(int PlanId)
+        {
+            var res = new PaymentPlanMasterBs().PaymentPlanMasterList().Where(x => x.Id == PlanId).FirstOrDefault().Months;
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetAmout(int InvoiceId)
+        {
+            var res = new OrderBusiness().OrderLists().Where(x => x.ID == InvoiceId).FirstOrDefault().GrandTotal;
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
+ 

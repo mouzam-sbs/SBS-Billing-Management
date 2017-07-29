@@ -191,6 +191,29 @@ namespace BLL.Implementation
             return _OrderModel;
         }
 
+        public List<OrderModel> OrderLists()
+        {
+           List<OrderModel> _OrderModel = new List<OrderModel>();
+           
+            var orderList = _Order.GetAll();
+            DateTime obj;
+            if (orderList != null && orderList.Any())
+            {
+                _OrderModel = (from @item in orderList
+                                         select new OrderModel
+                                         {
+                                             ID=Convert.ToInt32(item.ID),
+                                             InvoiceNumber = Invoice.INV.ToString() + @item.ID,
+                                             InvoiceDate = @item.CreatedOn ?? DateTime.Now,
+                                             CustomerName = @item.Customer != null ? @item.Customer.CustomerName : string.Empty,
+                                             Discount = Convert.ToDecimal(@item.Discount),
+                                             GrandTotal = Convert.ToDecimal(@item.TotalPrice),
+                                             Balance = (@item.Payments != null && @item.Payments.Any()) ? @item.Payments.OrderByDescending(m => m.Id).FirstOrDefault().BalanceAmount : @item.TotalPrice//Convert.ToDecimal(@item.Balance)
+
+                                         }).ToList();
+            }
+            return _OrderModel;
+        }
         public List<OrderModel> CustomerInvoiceList(int id, bool status=false)
         {
             IEnumerable<Order> orderList;

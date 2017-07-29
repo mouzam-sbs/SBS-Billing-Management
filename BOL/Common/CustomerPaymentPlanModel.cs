@@ -28,9 +28,9 @@ namespace BOL.Common
 
         public DateTime? EndDate { get; set; }
 
-        public string Months { get; set; }
+        public int Months { get; set; }
 
-        public long? AmountPerMonth { get; set; }
+        public double AmountPerMonth { get; set; }
 
         public List<CustomerPaymentPlanModel> CustomerPaymentPlanLists { get; set; }
         public List<PaymentPlanMasterModel> PaymentPlanMasterLists { get; set; }

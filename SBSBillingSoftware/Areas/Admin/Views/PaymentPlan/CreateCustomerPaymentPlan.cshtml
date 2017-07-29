@@ -4,14 +4,24 @@
     ViewBag.Title = "CreateCustomerPaymentPlan";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutPage1.cshtml";
 }
-
+<link href="~/Content/Theme/dist/css/alt/select2.min.css" rel="stylesheet" />
+<!-- Select2 -->
+<!-- Select2 -->
+@*<link rel="stylesheet" href="~/Content/Theme/plugins/select2/select2.min.css">*@
 <script src="~/Content/Theme/plugins/datepicker/bootstrap-datepicker.js"></script>
 <link href="~/Content/Theme/plugins/datepicker/datepicker3.css" rel="stylesheet" />
-
-
-
-@using (Html.BeginForm("Create", "CustomerPaymentPlan", FormMethod.Post))
+<link href="~/Content/Custom.css" rel="stylesheet" />
+ 
+@using (Html.BeginForm("SaveCustomerPaymentPlan", "PaymentPlan", FormMethod.Post))
 {
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-check"></i> Alert!</h4>
+       @if (TempData["message"]!=null)
+       {
+           @TempData["message"];
+       }
+    </div>
     <div class="box box-primary">
         <div class="container">
 
@@ -25,7 +35,7 @@
                             Plan Name
                         </label>
                         <div class="col-10">
-                            <select class="form-control select2  ddnPlanId" aria-hidden="true" name="PlanId">
+                            <select class="form-control select2  ddnPlanId" style="width: 100%;" name="PlanId">
                                 <option value="0">Select</option>
 
                                 @if (Model.PaymentPlanMasterLists != null)
@@ -37,7 +47,7 @@
                                         {
                                             isSelected = "selected";
                                         }
-                                <option value="@item.Id" @isSelected>@item.Name</option>
+                                        <option value="@item.Id" @isSelected>@item.Name</option>
                                     }
                                 }
                             </select>
@@ -46,7 +56,7 @@
                     <div class="col-md-5">
                         <label for="example-search-input" class="col-2 col-form-label">Creation Date </label>
                         <div class="col-10">
-                            <input type="text" name="CreateDate" class="form-control" id="datepicker">
+                            <input type="text" name="CreatedDate" class="form-control" id="datepicker">
                         </div>
                     </div>
                 </div>
@@ -57,22 +67,24 @@
                             Invoice#
                         </label>
                         <div class="col-10">
-                            <select class="form-control select2  ddnInvoiceId" aria-hidden="true" name="InvoiceId">
-                                <option value="0">Select</option>
+                            <div class="form-group">
+                                <select class="form-control select2  ddnInvoiceId" aria-hidden="true" name="InvoiceId">
+                                    <option value="0">Select</option>
 
-                                @if (Model.OrderList != null)
-                                {
-                                    foreach (var item in Model.OrderList)
+                                    @if (Model.OrderList != null)
                                     {
-                                        string isSelected = string.Empty;
-                                        if (item.ID == Model.Id)
+                                        foreach (var item in Model.OrderList)
                                         {
-                                            isSelected = "selected";
+                                            string isSelected = string.Empty;
+                                            if (item.ID == Model.Id)
+                                            {
+                                                isSelected = "selected";
+                                            }
+                                            <option value="@item.ID" @isSelected>@item.InvoiceNumber</option>
                                         }
-                                <option value="@item.ID" @isSelected>@item.InvoiceNumber</option>
                                     }
-                                }
-                            </select>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-5">
@@ -87,11 +99,11 @@
                 <div class="row">
                     <div class="col-md-5">
                         <label>Months</label>
-                        <input type="text" value="@Model.Months" name="Months" class="form-control" readonly />
+                        <input type="text" value="@Model.Months" id="Months" name="Months" class="form-control" readonly />
                     </div>
                     <div class="col-md-5">
                         <label>Amount Per Month </label>
-                        <input type="text" value="@Model.AmountPerMonth" name="AmountPerMonth" class="form-control" readonly />
+                        <input type="text" value="@Model.AmountPerMonth" id="AmountPerMonth" name="AmountPerMonth" class="form-control" readonly />
 
                     </div>
                 </div>
@@ -99,12 +111,12 @@
                 <div class="row">
                     <div class="col-md-5">
                         <label>Start Date </label>
-                        <input type="text" name="CreateDate" class="form-control" id="datepicker1">
+                        <input type="text" name="StartDate" class="form-control" id="datepicker1">
                     </div>
 
                     <div class="col-md-5">
                         <label>Notes</label>
-                        <textarea name="Note" class="form-control"></textarea>
+                        <textarea name="Notes" class="form-control"></textarea>
                     </div>
                 </div>
 
@@ -134,21 +146,66 @@
                 </div>
 
             </div>
-          
+
 
 
         </div>
     </div>
 
 }
+@*<script src="~/Content/Theme/plugins/select2/select2.full.js"></script>*@
+<script src="~/Content/Theme/plugins/select2/select2.full.min.js"></script>
 
 
 <script>
+
+    $(document).ready(function () {
+
+        $('.ddnPlanId').change(function () {
+            
+            $.ajax({
+                url: folderBaseURL + 'Admin/PaymentPlan/GetMonths?PlanId=' + this.value,
+                type: 'GET',
+                success: function (response) {
+                    if (response!=null) {
+                        $("#Months").val(response);
+                    }
+                }
+            });
+        });
+
+        $('.ddnInvoiceId').change(function () {
+            
+            $.ajax({
+                url: folderBaseURL + 'Admin/PaymentPlan/GetAmout?InvoiceId=' + this.value,
+                type: 'GET',
+                success: function (response) {
+                    if (response != null) {
+                        $("#InvoiceAmount").val(response);
+
+                        var invamount = parseInt($("#InvoiceAmount").val());
+                        var months = parseInt($("#Months").val());
+                        var res = invamount / months;
+                        $("#AmountPerMonth").val(res);
+                    }
+                }
+            });
+        });
+
+        
+    });
+    $(function () {
+        //Initialize Select2 Elements
+        $(".select2").select2();
+    });
     $(function () {
         //Date picker
+        
         $('#datepicker').datepicker({
             autoclose: true
         });
+        //Current Date Selection
+        $("#datepicker").datepicker("setDate", new Date());
 
         $('#datepicker1').datepicker({
             autoclose: true

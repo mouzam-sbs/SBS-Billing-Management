@@ -99,7 +99,8 @@ namespace DAL.DataModel
             Id = _obj.Id;
             PlanId = _obj.PlanId;
             InvoiceId = _obj.InvoiceId;
-            AmountPerMonth = _obj.AmountPerMonth;
+            Months = _obj.Months;
+            AmountPerMonth = Convert.ToDecimal(_obj.AmountPerMonth);
             CustomerId = _obj.CustomerId;
             Notes = _obj.Notes;
             StartDate = _obj.StartDate;
@@ -159,6 +160,10 @@ namespace DAL.DataModel
 
     public partial class OrderDetail
     {
+        public OrderDetail()
+        {
+
+        }
 
 
         public OrderDetail(BillingModel _obj)

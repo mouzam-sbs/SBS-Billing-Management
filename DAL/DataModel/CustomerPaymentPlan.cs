@@ -14,8 +14,7 @@ namespace DAL.DataModel
         {
             PaymentAgreements = new HashSet<PaymentAgreement>();
         }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+ 
         public int Id { get; set; }
 
         public int? PlanId { get; set; }

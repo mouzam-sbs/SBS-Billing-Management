@@ -188,6 +188,7 @@
     </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Custom.css" />
     <Content Include="Content\juquery-ui.css" />
     <Content Include="Content\select2-bootstrap.css" />
     <Content Include="Content\Site.css" />
@@ -1068,6 +1069,7 @@
     <Content Include="Content\Theme\plugins\timepicker\bootstrap-timepicker.js" />
     <Content Include="Content\Theme\plugins\timepicker\bootstrap-timepicker.min.css" />
     <Content Include="Content\Theme\plugins\timepicker\bootstrap-timepicker.min.js" />
+    <Content Include="Content\toastr\StyleSheet1.css" />
     <Content Include="Content\toastr\toastr.min.css" />
     <Content Include="Global.asax" />
     <Content Include="images\logo.png" />
