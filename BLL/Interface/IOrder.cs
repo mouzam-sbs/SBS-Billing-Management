@@ -21,6 +21,7 @@ namespace BLL.Interface
         int SavePaymentDetails(OrderModel model);
         PaymentModel GetPaymentReceiptBy(PaymentModel paymentModel);
         List<OrderModel> OrderLists();
+        List<OrderModel> orderlist();
 
     }
     }

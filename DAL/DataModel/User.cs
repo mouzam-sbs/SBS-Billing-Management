@@ -29,8 +29,6 @@ namespace DAL.DataModel
         [StringLength(100)]
         public string Hash { get; set; }
 
-        public int? Role { get; set; }
-
         public DateTime? CreatedOn { get; set; }
 
         public bool? Status { get; set; }
@@ -44,5 +42,6 @@ namespace DAL.DataModel
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AssignCustomer> AssignCustomers { get; set; }
+        public virtual Role Role { get; set; }
     }
 }

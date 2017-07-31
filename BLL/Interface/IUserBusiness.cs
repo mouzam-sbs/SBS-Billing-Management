@@ -8,8 +8,10 @@ namespace BLL.Interface
 {
    public interface IUserBusiness
     {
-        UserDetails ValidateUserLoggedInn(UserDetails _UserDetails);
-
+        List<UserModel> UserRegistrationList();
+        UserModel GetDetails(UserModel model);
+        int Save(UserModel model);
+        UserModel GetById(int id);
         List<UserDetails> UserList();
     }
 }

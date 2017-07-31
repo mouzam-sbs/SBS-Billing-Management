@@ -1,0 +1,76 @@
+﻿@model IEnumerable<BOL.Common.UserModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage1.cshtml";
+
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<div class="box-header">
+    <h3 class="box-title">Users List</h3>
+
+    <div class="box-tools">
+        <div class="input-group input-group-sm" style="width: 150px;">
+            <input type="text" id="txtSearchOrder" value="" class="form-control" placeholder="Search" />
+            <div class="input-group-btn">
+                <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6" id="success-alert">
+        @if (TempData["message"] != null)
+        {
+            <div class="alert alert-success alert-dismissible ">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4>
+                    @TempData["msg"]
+
+                </h4>
+
+            </div>
+        }
+    </div>
+    <div class="col-md-3"></div>
+</div>
+<table class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+    <tr>
+        <th>
+            <strong>ID</strong>
+        </th>
+        <th>
+            <strong>User Name</strong>
+        </th>
+
+
+        <th>
+            <strong>Role Name</strong>
+        </th>
+        <th>
+            <strong>Email</strong>
+        </th>
+        <th></th>
+    </tr>
+
+    <tbody id="tblBodyOrderList">
+
+        @foreach (var item in Model)
+        {
+            <tr data-id="@item.Id">
+                <td class="hide">@item.Id</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>@item.UserName</td>
+                <td>@item.RoleName</td>
+                <td>@item.Email</td>
+            </tr>
+
+        }
+
+
+</table>

@@ -1076,7 +1076,6 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\Category\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_LayoutPage1.cshtml" />
     <Content Include="Areas\Admin\Views\Category\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Customer\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Customer\Create.cshtml" />
@@ -1096,6 +1095,13 @@
     <Content Include="Areas\Admin\Views\AssignCustomer\Index.cshtml" />
     <Content Include="Areas\Admin\Views\PaymentPlan\Index.cshtml" />
     <Content Include="Areas\Admin\Views\PaymentPlan\CreateCustomerPaymentPlan.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Login\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\UserRegistration\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\UserRegistration\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_LayoutPage1.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_LayoutPage2.cshtml" />
     <None Include="BillingDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>BillingDataSet.Designer.cs</LastGenOutput>
@@ -1140,12 +1146,15 @@
     <Compile Include="Areas\Admin\Controllers\BillingController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\CustomerController.cs" />
+    <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\InvoiceController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrderedListsController.cs" />
     <Compile Include="Areas\Admin\Controllers\PaymentPlanController.cs" />
     <Compile Include="Areas\Admin\Controllers\PaymentReceiptController.cs" />
     <Compile Include="Areas\Admin\Controllers\PaymentsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UserRegistrationController.cs" />
     <Compile Include="BillingDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

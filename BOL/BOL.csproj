@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web.Mvc">
       <HintPath>..\..\..\Jamit Code Collaborate\JahTestingForAdnan (2)\JahTestingForAdnan\JahTesting2\JamiatAhleHadees\Bin\System.Web.Mvc.dll</HintPath>
@@ -51,6 +52,7 @@
     <Compile Include="Common\CustomerPaymentPlanModel.cs" />
     <Compile Include="Common\DepositToModel.cs" />
     <Compile Include="Common\DesignationModel.cs" />
+    <Compile Include="Common\LoginModel.cs" />
     <Compile Include="Common\OrderModel.cs" />
     <Compile Include="Common\OrderReports.cs" />
     <Compile Include="Common\PaymentModel.cs" />
@@ -59,6 +61,7 @@
     <Compile Include="Common\PaymentTransactionModel.cs" />
     <Compile Include="Common\ProductModel.cs" />
     <Compile Include="Common\UserDetails.cs" />
+    <Compile Include="Common\UserModel.cs" />
     <Compile Include="Helpers\CommonHelp.cs" />
     <Compile Include="Helpers\Enums\Enum.cs" />
     <Compile Include="Helpers\Extension\Extensions.cs" />

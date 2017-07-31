@@ -287,5 +287,17 @@ namespace BLL.Implementation
             }
             return _PaymentModel;
         }
+
+        public List<OrderModel> orderlist()
+        {
+            List<OrderModel> _orderList = new List<OrderModel>();
+            var CategoryList = _Order.GetAll().ToList();
+            _orderList = (from item in CategoryList
+                          select new OrderModel
+                          {
+                              OrderID = item.ID,
+                          }).OrderByDescending(x => x.OrderID).ToList();
+            return _orderList;
+        }
     }
 }

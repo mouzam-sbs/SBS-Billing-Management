@@ -1,0 +1,103 @@
+﻿@model BOL.Common.UserModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage1.cshtml";
+
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<div class="box-header with-border">
+    <h3 class="box-title">New User Registration</h3>
+</div>
+<br />
+
+@using (Html.BeginForm("Create", "UserRegistration", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    if (ViewBag.Success != null)
+    {
+        <div class="callout callout-success">
+            <h4>
+                @ViewBag.Success
+
+            </h4>
+            <p>Please Login with your Credentials.</p>
+        </div>
+    }
+
+    <div class="container">
+        <div class="col-md-3 col-lg-offset-3">
+
+            <form class="form-horizontal form-label-left">
+
+
+                <div class="form-group row">
+                    <label for="example-search-input" class="col-2 col-form-label">User Name</label>
+                    <div class="col-5">
+                        <input type="text" id="UserName" value="@Model.UserName" name="UserName" class="form-control" placeholder="User Name" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="example-search-input" class="col-2 col-form-label">Password</label>
+                    <div class="col-5">
+                        <input type="password" id="Password" value="@Model.Password" name="Password" class="form-control" placeholder="********" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="example-search-input" class="col-2 col-form-label">Confirm Password</label>
+                    <div class="col-5">
+                        @Html.TextBoxFor(m => m.ConfirmPassword, "", new { @class = "form-control", @type = "password" })
+                        @Html.ValidationMessageFor(m => m.ConfirmPassword)
+
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <label for="example-search-input" class="col-2 col-form-label">Email</label>
+                    <div class="col-5">
+                        <input type="email" id="Email" value="@Model.Email" name="Email" class="form-control" placeholder="" />
+                    </div>
+                </div>
+
+                <input type="hidden" id="hdnId" name="Id" value="@Model.Id" />
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        @if (Model.Id != null && Model.Id != 0)
+                        {
+                            <button type="submit" class="btn-block btn btn-success" data-id="@Model.Id" id="btnRegisterUpdate">
+                                Update
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn-block btn btn-success" data-id="0" id="btnRegister">
+                                Register
+                            </button>
+                        }
+                    </div>
+                    <div class="col-md-5">
+                        <button value="Edit"
+                                class="btn-block btn btn-danger" type="button" id="addressSearch"
+                                onclick="location.href='@Url.Action("Index", "Login")'">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+}
+
+
+
+
+
+

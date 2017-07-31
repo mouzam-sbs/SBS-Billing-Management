@@ -11,6 +11,20 @@ namespace DAL.DataModel
     {
     }
 
+
+    public partial class User
+    {
+        public User(UserModel item)
+        {
+            ID = item.Id;
+            UserName = item.UserName;
+            Email = item.Email;
+            Password = item.Password;
+            RoleId = item.RoleId;
+            UserTypeId = item.UserTypeId;
+        }
+    }
+
     public partial class Category
     {
         public Category(CategoryModel _obj)
