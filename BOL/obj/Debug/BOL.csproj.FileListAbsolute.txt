@@ -31,5 +31,6 @@ E:\SBS Billing Management\WebApplication1\SBS-Billing-Management\BOL\obj\Debug\B
 E:\SBS Billing Management\WebApplication1\SBS-Billing-Management\BOL\obj\Debug\BOL.pdb
 C:\Users\user\Documents\GitHub\SBS-Billing-Management\BOL\bin\Debug\BOL.dll
 C:\Users\user\Documents\GitHub\SBS-Billing-Management\BOL\bin\Debug\BOL.pdb
+C:\Users\user\Documents\GitHub\SBS-Billing-Management\BOL\obj\Debug\BOL.csprojResolveAssemblyReference.cache
 C:\Users\user\Documents\GitHub\SBS-Billing-Management\BOL\obj\Debug\BOL.dll
 C:\Users\user\Documents\GitHub\SBS-Billing-Management\BOL\obj\Debug\BOL.pdb

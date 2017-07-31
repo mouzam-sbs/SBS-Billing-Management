@@ -10,92 +10,91 @@
     <div class="container">
         <div class="row">
             <div class="box-body">
-                        <div><button data-toggle="modal" data-target="#squarespaceModal" class="btn btn-primary "><span style="font-size:18px;font-weight:500;">+ Add New </span></button></div>
-                </div>
-                <br />
-                <table class="table table-bordered table-hover table-responsive">
-                    <thead>
-                        <tr>
-                            <td><b>Id</b></td>
-                            <td><b>Name </b></td>
-                            <td><b>Months </b></td>
-                            <td><b>Edit</b></td>
-                            <td><b>Delete</b></td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in ViewBag.Model)
+                <div><button data-toggle="modal" data-target="#squarespaceModal" class="btn btn-primary "><span style="font-size:18px;font-weight:500;">+ Add New </span></button></div>
+            </div>
+            <br />
+            <table class="table table-bordered table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <td><b>Id</b></td>
+                        <td><b>Name </b></td>
+                        <td><b>Months </b></td>
+                        <td><b>Edit</b></td>
+                        <td><b>Delete</b></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.Model)
             {
-                            <tr>
-                                <td>@item.Id</td>
-                                <td>@item.Name</td>
-                                <td>@item.Months</td>
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Name</td>
+                            <td>@item.Months</td>
 
 
-                                <td>
-                                    <button value="Edit"
-                                            class="btn btn-primary btn-sm" type="button" id="addressSearch"
-                                            onclick="location.href='@Url.Action("Create", "PaymentPlanMaster" ,new {id = item.Id })'">
-                                        Edit
-                                    </button>
-                                </td>
-                                 
-                                <td>
-                                    <button value="Delete"
-                                            class="btn btn-danger btn-sm" type="button" id="addressSearch"
-                                            onclick="location.href='@Url.Action("Delete", "PaymentPlanMaster" ,new {id = item.Id })'">
-                                        Delete
-                                    </button>
-                                </td>
-                            </tr>
+                            <td>
+                                <button value="Edit"
+                                        class="btn btn-primary btn-sm" type="button" id="addressSearch"
+                                        onclick="location.href='@Url.Action("Create", "PaymentPlanMaster" ,new {id = item.Id })'">
+                                    Edit
+                                </button>
+                            </td>
+
+                            <td>
+                                <button value="Delete"
+                                        class="btn btn-danger btn-sm" type="button" id="addressSearch"
+                                        onclick="location.href='@Url.Action("Delete", "PaymentPlanMaster" ,new {id = item.Id })'">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
                     }
-                    </tbody>
-                </table>
+                </tbody>
+            </table>
 
-                @using (Html.BeginForm("Create", "PaymentPlan", FormMethod.Post))
+            @using (Html.BeginForm("Create", "PaymentPlan", FormMethod.Post))
             {
 
     <!-- line modal -->
-                    <div class="modal fade" id="squarespaceModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                                    <h3 class="modal-title" id="lineModalLabel">My Modal</h3>
-                                </div>
-                                <div class="modal-body">
+                <div class="modal fade" id="squarespaceModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                <h3 class="modal-title" id="lineModalLabel">My Modal</h3>
+                            </div>
+                            <div class="modal-body">
 
-                                    <!-- content goes here -->
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="PlanName"> Plan Name</label>
-                                            <input type="text" class="form-control" id="PlanName" name="Name" value="@Model.Name" placeholder="Plan Name">
-                                        </div>
+                                <!-- content goes here -->
+                                <form>
+                                    <div class="form-group">
+                                        <label for="PlanName"> Plan Name</label>
+                                        <input type="text" class="form-control" id="PlanName" name="Name" value="@Model.Name" placeholder="Plan Name">
+                                    </div>
 
-                                        <div class="form-group">
-                                            <label for="Months"> Months</label>
-                                            <input type="text" class="form-control" id="Months" name="Months" value="@Model.Months" placeholder="Months">
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <div class="btn-group btn-group-justified" role="group" aria-label="group button">
-                                        <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal" role="button">Close</button>
-                                        </div>
-                                        <div class="btn-group btn-delete hidden" role="group">
-                                            <button type="button" id="delImage" class="btn btn-default btn-hover-red" data-dismiss="modal" role="button">Delete</button>
-                                        </div>
-                                        <div class="btn-group" role="group">
-                                            <button type="submit" id="saveImage" class="btn btn-default btn-hover-green" data-action="save" role="button">Save</button>
-                                        </div>
+                                    <div class="form-group">
+                                        <label for="Months"> Months</label>
+                                        <input type="text" class="form-control" id="Months" name="Months" value="@Model.Months" placeholder="Months">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="btn-group btn-group-justified" role="group" aria-label="group button">
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal" role="button">Close</button>
+                                    </div>
+                                    <div class="btn-group btn-delete hidden" role="group">
+                                        <button type="button" id="delImage" class="btn btn-default btn-hover-red" data-dismiss="modal" role="button">Delete</button>
+                                    </div>
+                                    <div class="btn-group" role="group">
+                                        <button type="submit" id="saveImage" class="btn btn-default btn-hover-green" data-action="save" role="button">Save</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
             }
-            </div>
         </div>
     </div>
 </div>
