@@ -46,7 +46,7 @@ namespace SBSBillingSoftware.Areas.Admin.Controllers
                 _PaymentPlanMasterModel.PaymentPlanMasterLists = _PaymentPlanMasterBs.PaymentPlanMasterList().ToList();
             }
 
-            
+
 
             return View(_PaymentPlanMasterModel);
         }
@@ -75,10 +75,6 @@ namespace SBSBillingSoftware.Areas.Admin.Controllers
             }
 
         }
-
-
-
-
 
         // GET: Admin/CustomerPaymentPlan
         public ActionResult CustomerPaymentPlans()
@@ -155,4 +151,3 @@ namespace SBSBillingSoftware.Areas.Admin.Controllers
 
     }
 }
- 

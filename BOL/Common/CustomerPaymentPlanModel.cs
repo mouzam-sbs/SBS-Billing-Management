@@ -37,9 +37,5 @@ namespace BOL.Common
         public List<CustomerModel> CustomerModelList { get; set; }
         public List<OrderModel> OrderList { get; set; }
 
-
-
-
-
     }
 }

@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "CreateCustomerPaymentPlan";
-    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage1.cshtml";
+    //Layout = "~/Areas/Admin/Views/Shared/_LayoutPage1.cshtml";
 }
 <link href="~/Content/Theme/dist/css/alt/select2.min.css" rel="stylesheet" />
 <!-- Select2 -->
@@ -11,16 +11,16 @@
 <script src="~/Content/Theme/plugins/datepicker/bootstrap-datepicker.js"></script>
 <link href="~/Content/Theme/plugins/datepicker/datepicker3.css" rel="stylesheet" />
 <link href="~/Content/Custom.css" rel="stylesheet" />
- 
+
 @using (Html.BeginForm("SaveCustomerPaymentPlan", "PaymentPlan", FormMethod.Post))
 {
     <div class="alert alert-success alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
         <h4><i class="icon fa fa-check"></i> Alert!</h4>
-       @if (TempData["message"]!=null)
-       {
-           @TempData["message"];
-       }
+        @if (TempData["message"] != null)
+        {
+            @TempData["message"];
+        }
     </div>
     <div class="box box-primary">
         <div class="container">
@@ -139,7 +139,7 @@
                     <div class="col-md-1">
                         <button value="Edit"
                                 class="btn btn-danger" type="button" id="addressSearch"
-                                onclick="location.href='@Url.Action("Index", "CustomerPaymentPlan")'">
+                                onclick="location.href='@Url.Action("Index", "PaymentPlan")'">
                             Cancel
                         </button>
                     </div>
@@ -162,7 +162,7 @@
     $(document).ready(function () {
 
         $('.ddnPlanId').change(function () {
-            
+
             $.ajax({
                 url: folderBaseURL + 'Admin/PaymentPlan/GetMonths?PlanId=' + this.value,
                 type: 'GET',
@@ -175,7 +175,7 @@
         });
 
         $('.ddnInvoiceId').change(function () {
-            
+
             $.ajax({
                 url: folderBaseURL + 'Admin/PaymentPlan/GetAmout?InvoiceId=' + this.value,
                 type: 'GET',
@@ -192,7 +192,7 @@
             });
         });
 
-        
+
     });
     $(function () {
         //Initialize Select2 Elements
@@ -200,7 +200,7 @@
     });
     $(function () {
         //Date picker
-        
+
         $('#datepicker').datepicker({
             autoclose: true
         });
