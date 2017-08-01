@@ -135,6 +135,7 @@ namespace SBSBillingSoftware.Areas.Admin.Controllers
 
             }
         }
+
         [HttpGet]
         public JsonResult GetMonths(int PlanId)
         {
@@ -148,6 +149,7 @@ namespace SBSBillingSoftware.Areas.Admin.Controllers
             var res = new OrderBusiness().OrderLists().Where(x => x.ID == InvoiceId).FirstOrDefault().GrandTotal;
             return Json(res, JsonRequestBehavior.AllowGet);
         }
+
 
     }
 }
